@@ -1,4 +1,5 @@
 # smaa_vozilla
-SMAA project - Applied Computer Science, 1. semester
+
+System Modelling and Analysis project - Applied Computer Science, 1. semester, master's degree
 
 Team #1
