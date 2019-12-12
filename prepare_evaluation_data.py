@@ -49,20 +49,19 @@ def get_eval_data():
     df['distance'] = df.apply(lambda row: get_distance(row['lat'], row['lon'], row['lat2'], row['lon2']), axis=1)
     df['timedelta'] = df.apply(lambda row: ((row['date2'] - row['date']).seconds//60)%60, axis=1)
 
-    df[['timedelta', 'rangeDiff', 'batteryPctDiff', 'distance']].to_csv('data/all.csv', index=False)
+    all = df[['timedelta', 'rangeDiff', 'batteryPctDiff', 'distance']].to_csv('data/all.csv', index=False)
     x = df[['distance', 'timedelta']]
     y = df['batteryPctDiff']
-    xtrain, xrest = train_test_split(x, test_size=0.2)
-    xvalid, xtest = train_test_split(xrest, test_size=0.5)
-    ytrain, yrest = train_test_split(y, test_size=0.2)
-    yvalid, ytest = train_test_split(yrest, test_size=0.5)
 
-    xtrain.to_csv('data/xtrain.csv', index=False)
-    xvalid.to_csv('data/xvalid.csv', index=False)
-    xtest.to_csv('data/xtest.csv', index=False)
-    ytrain.to_csv('data/ytrain.csv', index=False)
-    yvalid.to_csv('data/yvalid.csv', index=False)
-    ytest.to_csv('data/ytest.csv', index=False)
+    alltrain, allrest = train_test_split(df, test_size=0.2)
+    allvalid, alltest = train_test_split(allrest, test_size=0.5)
+
+    alltrain[['distance', 'timedelta']].to_csv('data/xtrain.csv', index=False)
+    allvalid[['distance', 'timedelta']].to_csv('data/xvalid.csv', index=False)
+    alltest[['distance', 'timedelta']].to_csv('data/xtest.csv', index=False)
+    alltrain['batteryPctDiff'].to_csv('data/ytrain.csv', index=False)
+    allvalid['batteryPctDiff'].to_csv('data/yvalid.csv', index=False)
+    alltest['batteryPctDiff'].to_csv('data/ytest.csv', index=False)
 
 
 
