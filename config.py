@@ -1,4 +1,4 @@
-HOST = "localhost"
+HOST = "s2.srvnet.info"
 PORT = "5432"
 DATABASE = "car_sharing"
 DB_USER = "adb"

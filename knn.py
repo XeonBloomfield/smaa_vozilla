@@ -2,7 +2,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import matplotlib.pyplot as plt
 
-n_nums = list(range(5, 100, 5))
+n_nums = list(range(1, 100, 5))
 d = dict()
 
 def load_file_into_array(file_path, skip_header=False):
@@ -12,7 +12,7 @@ def load_file_into_array(file_path, skip_header=False):
 
 
 for n in n_nums:
-    neigh = KNeighborsClassifier(n_neighbors=n)
+    neigh = KNeighborsClassifier(n_neighbors=n, weights='distance')
 
     trainX = load_file_into_array('data/xtrain.csv', skip_header=True)
     trainY = load_file_into_array('data/ytrain.csv')
@@ -27,7 +27,11 @@ for n in n_nums:
     for i in range(len(validX)):
         prediction = int(neigh.predict([validX[i]])[0])
         res.append(prediction)
-        errors.append(prediction - validY[i])
+        err = prediction - validY[i]
+        if err >= 0:
+            errors.append(prediction - validY[i])
+        else:
+            errors.append(err * -1)
 
     d[n] = sum(errors)/len(errors)
 
