@@ -4,6 +4,7 @@ import math
 from sklearn.model_selection import train_test_split
 
 from geopy.distance import distance
+from datetime import datetime
 
 
 
@@ -32,12 +33,29 @@ def get_raw_data():
     return result
 
 
+def get_weather_data():
+    raw_str = open('data\weather\data_weather_for_vozilla.csv', 'r').read()
+    parsed_data = list(map(lambda x: x.split(';'), raw_str.split('\n')))[1:]
+    parsed_data_formatted = list(map(lambda x: [x[0], x[1], float(x[5])], parsed_data))
+    df = pandas.DataFrame(parsed_data_formatted)
+    df['timestamp'] = df.apply(lambda row: datetime.strptime('{d} {t}'.format(d=row[0], t=row[1]), '%d-%m-%Y %H:%M:%S'), axis=1)
+    df = df[['timestamp', 2]]
+    df.columns = ['timestamp', 'temp']
+    return df
+
+
+def get_temperature(date, weather_data):
+    return weather_data.loc[weather_data[weather_data['timestamp'].gt(date)].index[0]][1]
+
+
 def get_distance(lat_1, lng_1, lat_2, lng_2):
     return distance((lat_1, lng_1), (lat_2, lng_2)).kilometers
 
 
 def get_eval_data():
     raw_data = get_raw_data()
+    weather_data = get_weather_data()
+
     raw_df = pandas.DataFrame(raw_data, columns=['id', 's', 'e', 'date', 'lat', 'lon', 'range', 'battery'])
     start = raw_df.query('s')
     end = raw_df.query('e')
@@ -48,9 +66,11 @@ def get_eval_data():
     df['batteryPctDiff'] = df.apply(lambda row: row['battery'] - row['battery2'], axis=1)
     df['distance'] = df.apply(lambda row: get_distance(row['lat'], row['lon'], row['lat2'], row['lon2']), axis=1)
     df['timedelta'] = df.apply(lambda row: ((row['date2'] - row['date']).seconds//60)%60, axis=1)
+    df['temperature'] = df.apply(lambda row: get_temperature(row['date'], weather_data), axis=1)
 
-    all = df[['timedelta', 'rangeDiff', 'batteryPctDiff', 'distance']].to_csv('data/all.csv', index=False)
-    x = df[['distance', 'timedelta']]
+
+    all = df[['timedelta', 'rangeDiff', 'batteryPctDiff', 'distance', 'temperature']].to_csv('data/all.csv', index=False)
+    x = df[['distance', 'timedelta', 'temperature']]
     y = df['batteryPctDiff']
 
     alltrain, allrest = train_test_split(df, test_size=0.2)
