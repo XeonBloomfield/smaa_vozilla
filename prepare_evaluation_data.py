@@ -76,9 +76,9 @@ def get_eval_data():
     alltrain, allrest = train_test_split(df, test_size=0.2)
     allvalid, alltest = train_test_split(allrest, test_size=0.5)
 
-    alltrain[['distance', 'timedelta']].to_csv('data/xtrain.csv', index=False)
-    allvalid[['distance', 'timedelta']].to_csv('data/xvalid.csv', index=False)
-    alltest[['distance', 'timedelta']].to_csv('data/xtest.csv', index=False)
+    alltrain[['distance', 'timedelta', 'temperature']].to_csv('data/xtrain.csv', index=False)
+    allvalid[['distance', 'timedelta', 'temperature']].to_csv('data/xvalid.csv', index=False)
+    alltest[['distance', 'timedelta', 'temperature']].to_csv('data/xtest.csv', index=False)
     alltrain['batteryPctDiff'].to_csv('data/ytrain.csv', index=False)
     allvalid['batteryPctDiff'].to_csv('data/yvalid.csv', index=False)
     alltest['batteryPctDiff'].to_csv('data/ytest.csv', index=False)
