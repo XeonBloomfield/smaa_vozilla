@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from geopy.distance import distance
 from datetime import datetime
-
+import osrm
 
 
 _query = """
@@ -49,7 +49,16 @@ def get_temperature(date, weather_data):
 
 
 def get_distance(lat_1, lng_1, lat_2, lng_2):
-    return distance((lat_1, lng_1), (lat_2, lng_2)).kilometers
+    # return distance((lat_1, lng_1), (lat_2, lng_2)).kilometers
+    client = osrm.Client(host='http://localhost:5000')
+
+    response = client.route(
+        coordinates=[[lng_1, lat_1],
+                     [lng_2, lat_2]],
+        overview=osrm.overview.full)
+
+    distanceBetween = response['routes'][0]['distance'] / 1000
+    return distanceBetween
 
 
 def get_eval_data():
@@ -73,8 +82,8 @@ def get_eval_data():
     x = df[['distance', 'timedelta', 'temperature']]
     y = df['batteryPctDiff']
 
-    alltrain, allrest = train_test_split(df, test_size=0.2)
-    allvalid, alltest = train_test_split(allrest, test_size=0.5)
+    alltrain, allrest = train_test_split(df, test_size=0.2, random_state=42)
+    allvalid, alltest = train_test_split(allrest, test_size=0.5, random_state=42)
 
     alltrain[['distance', 'timedelta', 'temperature']].to_csv('data/xtrain.csv', index=False)
     allvalid[['distance', 'timedelta', 'temperature']].to_csv('data/xvalid.csv', index=False)
