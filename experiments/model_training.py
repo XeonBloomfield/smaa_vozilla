@@ -54,7 +54,7 @@ model.fit(trainX,
           batch_size=32,
           callbacks=[tensorboard_callback])
 
-model.save("multilayer_perceptron.hdf5")
+model.save("multilayer_perceptron_in3.hdf5")
 
 # Evaluation
 trainScore = model.evaluate(trainX, trainY, verbose=0)
@@ -62,7 +62,7 @@ print('Train Score: %.2f MSE (%.2f RMSE)' % (trainScore, math.sqrt(trainScore)))
 testScore = model.evaluate(testX, testY, verbose=0)
 print('Test Score: %.2f MSE (%.2f RMSE)' % (testScore, math.sqrt(testScore)))
 
-with open("multilayer_perceptron.results", mode='w') as results:
+with open("100_in3/multilayer_perceptron_in3.results", mode='w') as results:
     print('Train Score: %.2f MSE (%.2f RMSE)' % (trainScore, math.sqrt(trainScore)), file=results)
     print('Test Score: %.2f MSE (%.2f RMSE)' % (testScore, math.sqrt(testScore)), file=results)
 
@@ -71,11 +71,11 @@ with open("multilayer_perceptron.results", mode='w') as results:
 #
 # Same configuration of input/output as Multilayer Perceptron
 
-trainX = trainX.reshape((trainX.shape[0], 2, 1))
+trainX = trainX.reshape((trainX.shape[0], 3, 1))
 print(trainX.shape)
-validX = validX.reshape((validX.shape[0], 2, 1))
+validX = validX.reshape((validX.shape[0], 3, 1))
 print(validX.shape)
-testX = testX.reshape((testX.shape[0], 2, 1))
+testX = testX.reshape((testX.shape[0], 3, 1))
 print(testX.shape)
 
 
@@ -107,7 +107,7 @@ regressor.fit(trainX,
               batch_size=32,
               callbacks=[tensorboard_callback])
 
-regressor.save("regressor.hdf5")
+regressor.save("regressor_in3.hdf5")
 
 # Evaluation
 trainScore = regressor.evaluate(trainX, trainY, verbose=0)
@@ -115,6 +115,6 @@ print('Train Score: %.2f MSE (%.2f RMSE)' % (trainScore, math.sqrt(trainScore)))
 testScore = regressor.evaluate(testX, testY, verbose=0)
 print('Test Score: %.2f MSE (%.2f RMSE)' % (testScore, math.sqrt(testScore)))
 
-with open("regressor.results", mode='w') as results:
+with open("100_in3/regressor_in3.results", mode='w') as results:
     print('Train Score: %.2f MSE (%.2f RMSE)' % (trainScore, math.sqrt(trainScore)), file=results)
     print('Test Score: %.2f MSE (%.2f RMSE)' % (testScore, math.sqrt(testScore)), file=results)

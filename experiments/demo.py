@@ -17,7 +17,8 @@ log = logging.getLogger("demo")
 if __name__ == '__main__':
     source = input("Enter source address: ") or "wybrzeże Stanisława Wyspiańskiego 27, 50-370 Wrocław"
     destination = input("Enter destination address: ") or "plac Dominikański 3, 50-159 Wrocław"
-    startingPct = int(input("Enter current car battery level [%]: ") or "50")
+    temperature = int(input("Enter current temperature in Celsius degrees: ") or "18")
+    startingPct = int(input("Enter current car battery level [%]: ") or "4")
 
     log.info("Entered source = {}".format(source))
     log.info("Entered destination = {}".format(destination))
@@ -51,14 +52,14 @@ if __name__ == '__main__':
     log.info("durationBetween = {}".format(durationBetween))
 
     log.info("=== Loading models ===")
-    model1 = load_model('100/multilayer_perceptron.hdf5')
-    model2 = load_model('100/regressor.hdf5')
+    model1 = load_model('100_in3/multilayer_perceptron_in3.hdf5')
+    model2 = load_model('100_in3/regressor_in3.hdf5')
 
-    x = np.array([(distanceBetween, durationBetween)])
+    x = np.array([(distanceBetween, durationBetween, temperature)])
     prediction_multilayer_perceptron = model1.predict(x)
     log.info("prediction_multilayer_perceptron = {}".format(prediction_multilayer_perceptron))
 
-    x = x.reshape((x.shape[0], 2, 1))
+    x = x.reshape((x.shape[0], 3, 1))
     prediction_regressor = model2.predict(x)
     log.info("prediction_regressor = {}".format(prediction_regressor))
 
