@@ -34,7 +34,7 @@ def get_raw_data():
 
 
 def get_weather_data():
-    raw_str = open('data\weather\data_weather_for_vozilla.csv', 'r').read()
+    raw_str = open('data/weather/data_weather_for_vozilla.csv', 'r').read()
     parsed_data = list(map(lambda x: x.split(';'), raw_str.split('\n')))[1:]
     parsed_data_formatted = list(map(lambda x: [x[0], x[1], float(x[5])], parsed_data))
     df = pandas.DataFrame(parsed_data_formatted)
