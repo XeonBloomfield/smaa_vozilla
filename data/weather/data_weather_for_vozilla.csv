@@ -1,4 +1,4 @@
-aData;Czas;Predkosc dzwieku [m/s];Temp. dzwiekiem [�C];Cisnienie atmosferyczne [mbar];Temperatura [�C];Wilgotnosc [%];Kompas;Predkosc U-V;Predkosc wiatru [m/s];Kierunek;Wysokosc;Temp. wewnatrz pomieszczenia 113 [�C]
+Data;Czas;Predkosc dzwieku [m/s];Temp. dzwiekiem [�C];Cisnienie atmosferyczne [mbar];Temperatura [�C];Wilgotnosc [%];Kompas;Predkosc U-V;Predkosc wiatru [m/s];Kierunek;Wysokosc;Temp. wewnatrz pomieszczenia 113 [�C]
 01-11-2017;00:00:51;336.8;8.4;1007.9;7.9;100.0;3196;1.52;0.3;-0.34;1.59;21.6
 01-11-2017;00:01:56;336.9;8.4;1008.0;7.9;100.0;3197;2.31;0.49;-0.41;2.40;21.6
 01-11-2017;00:03:01;336.9;8.5;1008.0;7.9;100.0;3196;3.43;0.25;-0.16;3.44;21.6
